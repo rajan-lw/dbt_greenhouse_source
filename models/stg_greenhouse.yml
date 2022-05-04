@@ -609,4 +609,4 @@ models:
         description: Foreign key referencing the PROSPECT_POOL the stage belongs to.
 
   - name: stg_greenhouse__rejection_reason
-  description: Table capturing details for rejection
+    description: Table capturing details for rejection

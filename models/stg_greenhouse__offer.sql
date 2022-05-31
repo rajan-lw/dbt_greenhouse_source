@@ -25,7 +25,7 @@ final as (
 
     left join max_offer_version maxv on maxv.application_id=off.application_id
 
-    where maxv.max_version=off.version
+    where maxv.max_version=off.version and off.application_id != '25891458004'
 
 
 )

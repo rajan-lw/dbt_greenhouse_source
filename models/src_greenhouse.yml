@@ -153,6 +153,9 @@ sources:
           - name: parent_id
             description: Self-referencing parent department ID.
 
+      - name: education
+        description: Table to pull in education details about candidate
+      
       - name: eeoc
         description: Table capturing EEOC data provided by candidates. 
         meta:

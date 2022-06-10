@@ -13,6 +13,7 @@ vars:
     department: "{{ source('greenhouse', 'department') }}"
     candidate: "{{ source('greenhouse', 'candidate') }}"
     candidate_tag: "{{ source('greenhouse', 'candidate_tag') }}"
+    education: "{{ source('greenhouse', 'education') }}"
     eeoc: "{{ source('greenhouse', 'eeoc') }}"
     email_address: "{{ source('greenhouse', 'email_address') }}"
     hiring_team: "{{ source('greenhouse', 'hiring_team') }}"

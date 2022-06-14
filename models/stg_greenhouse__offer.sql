@@ -1,33 +1,38 @@
-with base as (
-
-    select * 
-    from {{ ref('stg_greenhouse__offer_tmp') }}
-
-),
-
-max_offer_version as (
-
-    select distinct off.application_id, max(off.version) as max_version
-    from base off
-    group by 1
-
-),
-
-final as (
-
+with max_offer_version as (    
     select 
+            distinct application_id
+        ,   max(version)                                        as max_version
+    from {{ ref('stg_greenhouse__offer_tmp') }}
+    group by 1
+),
 
-    off.*
-    ,CASE WHEN maxv.max_version=off.version THEN 'Max Version'
-        ELSE 'Other' END AS max_offer_version
+part1 AS (
+    select
+            off.*
+        ,   case when
+                maxv.max_version = off.version then 'Max Version'
+                else                                'Other' 
+                end                                             as max_offer_version
+    from {{ ref('stg_greenhouse__offer_tmp') }} off
+        left join 
+            max_offer_version maxv on maxv.application_id = off.application_id
+    where maxv.max_version = off.version
+),
 
-    from base off
+max_offer_date AS( 
+    select 
+            distinct part1.application_id
+        ,   max(part1.UPDATED_AT)                               as max_date
+    from part1
+    group by 1
+),
 
-    left join max_offer_version maxv on maxv.application_id=off.application_id
-
-    where maxv.max_version=off.version and off.application_id != '25891458004'
-
-
+final AS (
+    select 
+        part1.*
+    from part1
+    left join max_offer_date maxd on maxd.application_id = part1.application_id
+    where maxd.max_date = part1.UPDATED_AT
 )
 
 select * from final
